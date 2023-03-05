@@ -8,26 +8,33 @@ import {
   FileItemProps,
   FileItemType,
 } from '../../types/FileListItem'
-import { CURRENT_DIRECTORY } from '../../Consts'
+import { CURRENT_PARENT_DIRECTORY } from '../../Consts'
 import UploadSpeedDial from '../upload/UploadSpeedDial'
 
 interface Props {
   fileItemList: FileItemProps[]
   parentDirectory: string
+  onFileClick: (
+    parentDirectory: string,
+    fileName: string,
+    fileType: FileItemType
+  ) => void
   onFileSelected: (fileList: FileList) => void
 }
 
 const FileListContainer = ({
   parentDirectory,
   fileItemList,
-  onFileSelected: onUpload,
+  onFileSelected,
+  onFileClick,
 }: Props) => {
-  const onRowClick = (
+  const handleFileClick = (
     parentDirectory: string,
     fileName: string,
     fileType: FileItemType
   ) => {
     console.log('row clicked', parentDirectory, fileName)
+    onFileClick(parentDirectory, fileName, fileType)
   }
   const onModify = (
     name: string,
@@ -47,25 +54,14 @@ const FileListContainer = ({
     }
   }
   return (
-    <Paper
-      sx={(theme) => ({
-        p: '12px',
-        position: 'relative',
-        borderRadius: 4,
-        mr: 2,
-        margin: {
-          xs: 4,
-          md: 0,
-        },
-      })}
-    >
+    <>
       <List
         className={style.FileListContainer}
         sx={{
-          height: {
-            xs: 480,
-            md: 720,
-          },
+          // height: {
+          //   xs: 480,
+          //   md: 720,
+          // },
           overflowY: 'auto',
         }}
       >
@@ -78,11 +74,15 @@ const FileListContainer = ({
           }}
         >
           <FileItem
-            fileName={CURRENT_DIRECTORY}
+            fileName={CURRENT_PARENT_DIRECTORY}
             fileType={FileItemType.DIRECTORY}
             parentDirectory={parentDirectory}
-            onClick={() =>
-              onRowClick(parentDirectory, '', FileItemType.DIRECTORY)
+            onFileClick={() =>
+              handleFileClick(
+                parentDirectory,
+                CURRENT_PARENT_DIRECTORY,
+                FileItemType.DIRECTORY
+              )
             }
             onModify={() => {}}
             isBackToParent={true}
@@ -94,13 +94,13 @@ const FileListContainer = ({
             fileName={fileName}
             fileType={fileType}
             parentDirectory={parentDirectory}
-            onClick={onRowClick}
+            onFileClick={handleFileClick}
             onModify={onModify}
           />
         ))}
       </List>
-      <UploadSpeedDial onFileSelected={onUpload} />
-    </Paper>
+      <UploadSpeedDial onFileSelected={onFileSelected} />
+    </>
   )
 }
 

@@ -38,7 +38,7 @@ interface Props extends FileItemProps {
   parentDirectory: string
   onModify: ModifyHandler
   isBackToParent?: boolean
-  onClick: (
+  onFileClick: (
     parentDirectory: string,
     fileName: string,
     fileType: FileItemType
@@ -51,7 +51,7 @@ const FileItem = ({
   fileName,
   fileType,
   isBackToParent = false,
-  onClick,
+  onFileClick: onClick,
   onModify,
   ...restProps
 }: Props) => {
@@ -95,7 +95,7 @@ const FileItem = ({
       {...restProps}
       className={style.ListItem}
       secondaryAction={
-        isBackToParent || (
+        !isBackToParent ? (
           <Box sx={{ display: 'flex', gap: 2 }}>
             <IconButton
               edge="end"
@@ -135,6 +135,8 @@ const FileItem = ({
               </MenuItem>
             </Menu>
           </Box>
+        ) : (
+          <></>
         )
       }
     >

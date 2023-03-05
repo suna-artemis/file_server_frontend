@@ -1,1 +1,2 @@
-export const CURRENT_DIRECTORY = '..'
+export const CURRENT_PARENT_DIRECTORY = '..'
+export const ROOT_DIR = '/'
