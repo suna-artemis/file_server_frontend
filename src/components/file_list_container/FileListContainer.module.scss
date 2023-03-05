@@ -1,0 +1,13 @@
+$grayscaleMedium: #e0e0e0;
+
+.FileListContainer {
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    background-color: $grayscaleMedium;
+    border-radius: 16px;
+    background-clip: padding-box;  
+  }
+}
